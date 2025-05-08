@@ -10,4 +10,4 @@ def extract_zip(zip_path, extract_to='extracted_logo'):
     print(f'Extracted to {extract_to}')
 
 if __name__ == '__main__':
-    extract_zip('logo.zip')
+    extract_zip('tv-logo-main.zip')
