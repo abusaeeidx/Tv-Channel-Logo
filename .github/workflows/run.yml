@@ -5,7 +5,7 @@ on:
 
   push:
     paths:
-      - 'logo.zip'
+      - 'tv-logo-main.zip'
 
 jobs:
   unzip:
