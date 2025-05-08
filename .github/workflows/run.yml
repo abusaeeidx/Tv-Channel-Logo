@@ -1,0 +1,26 @@
+name: Extract GitHub Logo ZIP
+
+on:
+  workflow_dispatch:  # <-- This adds the manual run button
+
+  push:
+    paths:
+      - 'logo.zip'
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install --upgrade pip
+
+      - name: Run Extract Script
+        run: python extract_zip.py
