@@ -17,8 +17,8 @@ jobs:
           sudo apt-get install -y unzip
           pip install requests
 
-      - name: Unzip tv-logo-main.zip
-        run: unzip -o tv-logo-main.zip -d ./unzipped
+      - name: Unzip CricHD.zip
+        run: unzip -o CricHD.zip
 
       - name: Commit and Push Changes
         run: |
