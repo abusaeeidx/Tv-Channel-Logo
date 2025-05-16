@@ -1,21 +1,4 @@
-Skip to content
-Navigation Menu
-abusaeeidx
-CricHd-playlists-Auto-Update-permanent
 
-Code
-Issues
-Pull requests
-Actions
-Projects
-Security
-Insights
-Auto Update 1
-Auto Update 1 #1244
-Jobs
-Run details
-Workflow file for this run
-.github/workflows/blank.yml at 4755334
 name: Auto Update 1
 # জীবনে শুধু চুরি করা ছাড়া আর কিছু শিখলি না। 
  #এটা আপনার পারিবারিক শিক্ষা।
@@ -60,4 +43,3 @@ jobs:
 
 permissions:
   contents: write
-Auto update api.json and ALL.m3u · abusaeeidx/CricHd-playlists-Auto-Update-permanent@4755334 
