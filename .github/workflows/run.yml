@@ -1,4 +1,6 @@
 name: Auto Update 1
+
+on:
   workflow_dispatch:
 
 jobs:
@@ -25,6 +27,7 @@ jobs:
           cp -r ./unzipped/* .
           git add .
           git commit -m "Auto update from zip file" || echo "No changes to commit"
+          
       - name: Push Changes
         uses: ad-m/github-push-action@v0.6.0
         with:
