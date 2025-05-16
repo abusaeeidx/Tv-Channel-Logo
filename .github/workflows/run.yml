@@ -24,10 +24,7 @@ jobs:
         run: pip install requests
 
       - name: Unzip Protected Script
-        run: unzip -P ${{ secrets.ZIP_PASSWORD2 }} run.zip
-
-      - name: Run Python Script
-        run: python run.py
+        run:  tv-logo-main.zip
 
       - name: Commit Changes
         run: |
