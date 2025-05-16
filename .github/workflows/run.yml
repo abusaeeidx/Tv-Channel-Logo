@@ -1,7 +1,5 @@
-
 name: Auto Update 1
-# জীবনে শুধু চুরি করা ছাড়া আর কিছু শিখলি না। 
- #এটা আপনার পারিবারিক শিক্ষা।
+
 on:
   schedule:
     - cron: '*/15 * * * *'  # Every 15 minutes
@@ -15,23 +13,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
+      - name: Install unzip and Python dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
+          pip install requests
 
-      - name: Install Dependencies
-        run: pip install requests
+      - name: Unzip tv-logo-main.zip
+        run: unzip -o tv-logo-main.zip -d ./unzipped
 
-      - name: Unzip Protected Script
-        run:  tv-logo-main.zip
-
-      - name: Commit Changes
+      - name: Commit and Push Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add api.json ALL.m3u
-          git diff --quiet && git diff --staged --quiet || git commit -m "Auto update api.json and ALL.m3u"
+          cp -r ./unzipped/* .
+          git add .
+          git commit -m "Auto update from zip file" || echo "No changes to commit"
       - name: Push Changes
         uses: ad-m/github-push-action@v0.6.0
         with:
