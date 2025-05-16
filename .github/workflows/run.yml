@@ -18,7 +18,7 @@ jobs:
           pip install requests
 
       - name: Unzip CricHD.zip
-        run: unzip -o CricHD.zip
+        run: unzip -o CricHD.zip -d ./unzipped
 
       - name: Commit and Push Changes
         run: |
