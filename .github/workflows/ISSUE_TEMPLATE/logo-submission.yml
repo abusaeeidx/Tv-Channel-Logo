@@ -1,0 +1,42 @@
+name: "Submit a New Logo"
+description: "Provide details to submit a new logo."
+title: "[Logo] <Logo Name Here>"
+labels: [submission]
+body:
+  - type: input
+    id: logo_name
+    attributes:
+      label: "Logo Name"
+      placeholder: "e.g., SonyLiv HD"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Category"
+      options:
+        - TV Channel
+        - OTT Platform
+        - Sports
+        - News
+        - Social Media
+        - Website
+        - Others
+      default: 0
+    validations:
+      required: true
+
+  - type: input
+    id: logo_url
+    attributes:
+      label: "Direct Image URL"
+      placeholder: "https://.../logo.png"
+    validations:
+      required: true
+
+  - type: input
+    id: contributor
+    attributes:
+      label: "Your Name (for credits)"
+      placeholder: "Optional"
