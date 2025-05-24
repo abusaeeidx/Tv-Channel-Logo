@@ -5,46 +5,53 @@ on:
     types: [labeled]
 
 jobs:
-  handle-logo-submission:
-    if: github.event.label.name == 'approved' || github.event.label.name == 'rejected'
+  auto-add-logo:
+    if: github.event.label.name == 'approved'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup GitHub CLI
-        uses: cli/cli-action@v2
+      - name: Get Issue Details
+        uses: actions/github-script@v7
+        id: issue_data
+        with:
+          script: |
+            const issue_number = context.payload.issue.number;
+            const issue = await github.rest.issues.get({
+              ...context.repo,
+              issue_number,
+            });
 
-      - name: Handle Approved/Rejected Submission
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            const body = issue.data.body;
+            const nameMatch = body.match(/Logo Name.*\n.*\n(.*)/);
+            const categoryMatch = body.match(/Category.*\n.*\n(.*)/);
+            const imageMatch = body.match(/http.*\.(png|jpg|jpeg)/);
+
+            return {
+              logo_name: nameMatch ? nameMatch[1].trim() : "Unknown",
+              category: categoryMatch ? categoryMatch[1].trim() : "Others",
+              image_url: imageMatch ? imageMatch[0] : ""
+            };
+
+      - name: Download logo
         run: |
-          echo "Label: ${{ github.event.label.name }}"
+          mkdir -p "logos/${{ steps.issue_data.outputs.category }}"
+          curl -sL "${{ steps.issue_data.outputs.image_url }}" -o "logos/${{ steps.issue_data.outputs.category }}/${{ steps.issue_data.outputs.logo_name }}.png"
 
-          if [ "${{ github.event.label.name }}" = "rejected" ]; then
-            echo "Submission rejected. Closing issue."
-            gh issue close ${{ github.event.issue.number }} --reason "not planned"
-            exit 0
-          fi
-
-          curl -H "Authorization: token $GH_TOKEN" \
-               https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} > issue.json
-
-          LOGO_NAME=$(grep -i "Logo Name" issue.json | head -n1 | cut -d ':' -f2 | sed 's/[^a-zA-Z0-9 _-]//g' | xargs)
-          CATEGORY=$(grep -i "Category" issue.json | head -n1 | cut -d ':' -f2 | xargs)
-          IMAGE_URL=$(grep -o 'http[^"]*\.png' issue.json | head -n1)
-
-          echo "Downloading $LOGO_NAME under $CATEGORY"
-          mkdir -p "logos/$CATEGORY"
-          curl -sL "$IMAGE_URL" -o "logos/$CATEGORY/$LOGO_NAME.png"
-
-      - name: Commit Changes
+      - name: Commit logo
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Add approved logo from #${{ github.event.issue.number }}"
+          commit_message: "Add logo: ${{ steps.issue_data.outputs.logo_name }}"
+          branch: main
 
       - name: Close Issue
-        run: gh issue close ${{ github.event.issue.number }} --reason "completed"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.update({
+              ...context.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
