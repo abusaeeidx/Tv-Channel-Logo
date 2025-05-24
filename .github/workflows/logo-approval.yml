@@ -1,0 +1,38 @@
+.github/workflows/logo-approval.yml
+
+name: "Logo Submission Approval"
+
+on: issues: types: [labeled]
+
+jobs: handle-logo-submission: if: | github.event.label.name == 'approved' || github.event.label.name == 'rejected' runs-on: ubuntu-latest steps: - name: Checkout Repo uses: actions/checkout@v4
+
+- name: Handle Approved or Rejected Submission
+    run: |
+      echo "Label: ${{ github.event.label.name }}"
+      
+      if [ "${{ github.event.label.name }}" = "rejected" ]; then
+        echo "Submission rejected. Closing issue."
+        gh issue close ${{ github.event.issue.number }} --reason "not planned"
+        exit 0
+      fi
+
+      echo "Fetching issue body for approved logo submission."
+      echo "(You would parse logo name, category, and image URL here.)"
+      
+      # TODO: Add your logic to download image, save to proper folder,
+      # update index.html / JSON / zip etc.
+      
+      echo "Committing approved logo to repo."
+
+  - name: Auto Commit Changes
+    uses: stefanzweifel/git-auto-commit-action@v5
+    with:
+      commit_message: "Add approved logo from #${{ github.event.issue.number }}"
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  - name: Close Issue after Processing
+    run: gh issue close ${{ github.event.issue.number }} --reason "completed"
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
