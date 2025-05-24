@@ -1,38 +1,50 @@
-.github/workflows/logo-approval.yml
-
 name: "Logo Submission Approval"
 
-on: issues: types: [labeled]
+on:
+  issues:
+    types: [labeled]
 
-jobs: handle-logo-submission: if: | github.event.label.name == 'approved' || github.event.label.name == 'rejected' runs-on: ubuntu-latest steps: - name: Checkout Repo uses: actions/checkout@v4
+jobs:
+  handle-logo-submission:
+    if: github.event.label.name == 'approved' || github.event.label.name == 'rejected'
+    runs-on: ubuntu-latest
 
-- name: Handle Approved or Rejected Submission
-    run: |
-      echo "Label: ${{ github.event.label.name }}"
-      
-      if [ "${{ github.event.label.name }}" = "rejected" ]; then
-        echo "Submission rejected. Closing issue."
-        gh issue close ${{ github.event.issue.number }} --reason "not planned"
-        exit 0
-      fi
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      echo "Fetching issue body for approved logo submission."
-      echo "(You would parse logo name, category, and image URL here.)"
-      
-      # TODO: Add your logic to download image, save to proper folder,
-      # update index.html / JSON / zip etc.
-      
-      echo "Committing approved logo to repo."
+      - name: Setup GitHub CLI
+        uses: cli/cli-action@v2
 
-  - name: Auto Commit Changes
-    uses: stefanzweifel/git-auto-commit-action@v5
-    with:
-      commit_message: "Add approved logo from #${{ github.event.issue.number }}"
+      - name: Handle Approved/Rejected Submission
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Label: ${{ github.event.label.name }}"
 
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          if [ "${{ github.event.label.name }}" = "rejected" ]; then
+            echo "Submission rejected. Closing issue."
+            gh issue close ${{ github.event.issue.number }} --reason "not planned"
+            exit 0
+          fi
 
-  - name: Close Issue after Processing
-    run: gh issue close ${{ github.event.issue.number }} --reason "completed"
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          curl -H "Authorization: token $GH_TOKEN" \
+               https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }} > issue.json
+
+          LOGO_NAME=$(grep -i "Logo Name" issue.json | head -n1 | cut -d ':' -f2 | sed 's/[^a-zA-Z0-9 _-]//g' | xargs)
+          CATEGORY=$(grep -i "Category" issue.json | head -n1 | cut -d ':' -f2 | xargs)
+          IMAGE_URL=$(grep -o 'http[^"]*\.png' issue.json | head -n1)
+
+          echo "Downloading $LOGO_NAME under $CATEGORY"
+          mkdir -p "logos/$CATEGORY"
+          curl -sL "$IMAGE_URL" -o "logos/$CATEGORY/$LOGO_NAME.png"
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Add approved logo from #${{ github.event.issue.number }}"
+
+      - name: Close Issue
+        run: gh issue close ${{ github.event.issue.number }} --reason "completed"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
