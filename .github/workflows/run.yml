@@ -24,10 +24,10 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          cp -r ../Others/* .
+          cp -r Others/* .
           git add .
           git commit -m "Auto update from zip file" || echo "No changes to commit"
-          
+
       - name: Push Changes
         uses: ad-m/github-push-action@v0.6.0
         with:
