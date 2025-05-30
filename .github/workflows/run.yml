@@ -18,7 +18,7 @@ jobs:
           pip install requests
 
       - name: Unzip daddylive.zip
-        run: unzip -o daddylive.zip -d ./unzipped
+        run: unzip -o c.zip -d ./Others
 
       - name: Commit and Push Changes
         run: |
