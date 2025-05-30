@@ -17,14 +17,13 @@ jobs:
           sudo apt-get install -y unzip
           pip install requests
 
-      - name: Unzip daddylive.zip
-        run: unzip -o c.zip -d ./Others
+      - name: Unzip ZIP file preserving structure
+        run: unzip -o c.zip
 
       - name: Commit and Push Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          cp -r Others/* .
           git add .
           git commit -m "Auto update from zip file" || echo "No changes to commit"
 
