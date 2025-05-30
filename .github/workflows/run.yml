@@ -18,7 +18,7 @@ jobs:
           pip install requests
 
       - name: Unzip ZIP file preserving structure
-        run: unzip -o c.zip
+        run: unzip -o BD.zip
 
       - name: Commit and Push Changes
         run: |
