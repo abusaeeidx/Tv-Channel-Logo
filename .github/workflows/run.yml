@@ -18,7 +18,7 @@ jobs:
           pip install requests
 
       - name: Unzip ZIP file preserving structure
-        run: unzip -o BD.zip
+        run: unzip -o Toffee-Live-tv.zip
 
       - name: Commit and Push Changes
         run: |
