@@ -20,12 +20,12 @@ jobs:
       - name: Copy logos from 'countries' folder
         run: |
           mkdir -p logos
-          cp -r source-repo/countries/* logos/
+          cp -r source-repo/countries/* countries/
 
       - name: Commit and push changes
         run: |
           git config user.name "AutoBot"
           git config user.email "actions@github.com"
-          git add logos
+          git add countries
           git diff --cached --quiet || git commit -m "Auto update TV logos"
           git push
