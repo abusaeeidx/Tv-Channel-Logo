@@ -1,4 +1,4 @@
-name: Import TV Logos from tv-logo Repo
+name: Import TV Logos from tv-logo
 
 on:
   workflow_dispatch: # Manual trigger
@@ -15,12 +15,16 @@ jobs:
 
       - name: Clone the source repo (tv-logos)
         run: |
-          git clone --depth=1 https://github.com/tv-logo/tv-logos.git source-repo
+          git clone --depth=1 "${{ secrets.SOURCE_URL }}" source-repo
 
       - name: Copy logos from 'countries' folder
         run: |
           mkdir -p logos
           cp -r source-repo/countries/* countries/
+
+      - name: Count logos copied
+        run: |
+          echo "Total logos copied: $(find countries -type f | wc -l)"
 
       - name: Commit and push changes
         run: |
