@@ -19,7 +19,7 @@ jobs:
 
       - name: Copy logos from 'countries' folder
         run: |
-          mkdir -p logos
+          mkdir -p countries
           cp -r source-repo/countries/* countries/
 
       - name: Count logos copied
