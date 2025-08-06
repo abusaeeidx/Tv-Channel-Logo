@@ -18,7 +18,7 @@ jobs:
           pip install requests
 
       - name: Unzip ZIP file preserving structure
-        run: unzip -o OTT platform.zip
+        run: unzip -o "OTT platform.zip"
 
       - name: Commit and Push Changes
         run: |
