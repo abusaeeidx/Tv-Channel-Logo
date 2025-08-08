@@ -17,11 +17,14 @@ jobs:
           sudo apt-get install -y unzip
           pip install requests
 
-      - name: Unzip all ZIP files into "callection" folder
+      - name: Unzip all ZIP files into folders named after the ZIP files
         run: |
           mkdir -p callection
           for zipfile in *.zip; do
-            [ -f "$zipfile" ] && unzip -o "$zipfile" -d callection
+            if [ -f "$zipfile" ]; then
+              foldername=$(basename "$zipfile" .zip)
+              unzip -o "$zipfile" -d "callection/$foldername"
+            fi
           done
 
       - name: Commit and Push Changes
@@ -29,7 +32,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Auto update from all zip files into callection" || echo "No changes to commit"
+          git commit -m "Auto update: extracted zip files into separate folders in callection" || echo "No changes to commit"
 
       - name: Push Changes
         uses: ad-m/github-push-action@v0.6.0
