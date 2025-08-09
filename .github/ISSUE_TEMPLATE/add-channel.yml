@@ -3,9 +3,6 @@ description: Submit a new TV channel with logo URL or upload
 title: "[New Channel] "
 labels: ["new-channel"]
 
-config:
-  blank_issues_enabled: false
-
 body:
   - type: input
     id: channel_name
