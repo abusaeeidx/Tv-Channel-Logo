@@ -11,7 +11,8 @@ body:
     id: channel_name
     attributes:
       label: Channel Name
-      placeholder: e.g. T Sports HD
+      description: Enter the name of the TV channel
+      placeholder: T Sports HD
     validations:
       required: true
 
@@ -19,10 +20,11 @@ body:
     id: logo_input_type
     attributes:
       label: Choose logo input type
+      description: Select if you want to provide a logo URL or upload a logo file URL
       options:
         - label: Logo URL
           value: url
-        - label: Upload logo file (provide file URL after upload)
+        - label: Upload logo file (provide URL where uploaded)
           value: upload
     validations:
       required: true
@@ -30,8 +32,7 @@ body:
   - type: input
     id: logo_url
     attributes:
-      label: Logo URL (if URL selected)
-      description: Provide the direct link to the logo image
+      label: Logo URL (if you selected "Logo URL")
       placeholder: https://example.com/logo.png
     validations:
       required: false
@@ -39,8 +40,7 @@ body:
   - type: input
     id: uploaded_file_url
     attributes:
-      label: Uploaded file URL (if upload selected)
-      description: Provide the URL where your uploaded logo file is hosted
+      label: Uploaded file URL (if you selected "Upload logo file")
       placeholder: https://your-upload-host.com/logo.png
     validations:
       required: false
@@ -49,7 +49,8 @@ body:
     id: category
     attributes:
       label: Category
-      placeholder: e.g. Sports, News, Movies
+      description: e.g. Sports, News, Movies
+      placeholder: Sports
     validations:
       required: true
 
@@ -57,6 +58,7 @@ body:
     id: country
     attributes:
       label: Country code (2 letters, lowercase)
-      placeholder: e.g. bd, us, uk, au
+      description: Use two-letter country code, e.g. bd, us, uk, au
+      placeholder: bd
     validations:
       required: true
