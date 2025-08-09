@@ -1,37 +1,37 @@
-name: Add new TV channel
-description: Submit a new TV channel with logo URL or upload
-title: "[New Channel] "
-labels: ["new-channel"]
-body:
-  - type: input
-    id: channel_name
-    attributes:
-      label: Channel Name
-      placeholder: e.g. T Sports HD
-    validations:
-      required: true
-  - type: choice
-    id: logo_input_type
-    attributes:
-      label: Choose logo input type
-      options:
-        - label: Logo URL
-          value: url
-        - label: Upload logo file (provide file URL after upload)
-          value: upload
-    validations:
-      required: true
-  - type: input
-    id: logo_url
-    attributes:
-      label: Logo URL (if URL selected)
-      description: Provide the direct link to the logo image
-      placeholder: https://example.com/logo.png
-    validations:
-      required: false
-  - type: input
-    id: uploaded_file_url
-    attributes:
-      label: Uploaded file URL (if upload selected)
-      description: Provide the URL where your uploaded logo file is hosted
-      placeholder: https://your-upload-host.com/logo
+- type: input
+  id: channel_name
+  attributes:
+    label: Channel Name
+    placeholder: e.g. T Sports HD
+  validations:
+    required: true
+
+- type: dropdown
+  id: logo_input_type
+  attributes:
+    label: Choose logo input type
+    options:
+      - label: Logo URL
+        value: url
+      - label: Upload logo file (provide file URL after upload)
+        value: upload
+  validations:
+    required: true
+
+- type: input
+  id: logo_url
+  attributes:
+    label: Logo URL (if URL selected)
+    description: Provide the direct link to the logo image
+    placeholder: https://example.com/logo.png
+  validations:
+    required: false
+
+- type: input
+  id: uploaded_file_url
+  attributes:
+    label: Uploaded file URL (if upload selected)
+    description: Provide the URL where your uploaded logo file is hosted
+    placeholder: https://your-upload-host.com/logo.png
+  validations:
+    required: false
