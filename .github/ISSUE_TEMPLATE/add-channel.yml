@@ -1,0 +1,33 @@
+name: Add new TV channel
+description: Submit a new TV channel to be added
+title: "[New Channel] "
+labels: ["new-channel"]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Channel Name
+      placeholder: e.g. T Sports HD
+    validations:
+      required: true
+  - type: input
+    id: logo
+    attributes:
+      label: Logo URL
+      placeholder: e.g. https://example.com/logo.png
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      placeholder: e.g. Sports, News, Movies
+    validations:
+      required: true
+  - type: input
+    id: country
+    attributes:
+      label: Country
+      placeholder: e.g. Bangladesh, India
+    validations:
+      required: true
