@@ -45,7 +45,7 @@ Maintaining and creating these logos takes a lot of time and effort. If you’d 
 ## 📝 Request a Logo
 
 Want to request a specific logo?  
-[Click here to submit a request](https://forms.gle/BVjAKFXwSCuWhpYi7).
+[Click here to submit a request]().
 
 ---
 
@@ -84,7 +84,7 @@ Click on a country to view its directory. From there, click the mosaic file at t
 - Direct linking to RAW URLs is supported but not guaranteed stable.  
 - Logo updates automatically propagate via direct links but may require cache clearing.  
 - Contact me before linking logos to your services.  
-- Found issues? Email: tapio.sinnertwin(at)gmail.com.
+- Found issues?
 
 ---
 
